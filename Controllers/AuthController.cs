@@ -13,30 +13,39 @@ namespace WatercoolerApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        private readonly DataContext _context;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration, DataContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            var user = new User();
 
             user.Username = request.Username;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.UserActivity = request.UserActivity;
 
-            return Ok(user);
+            _context.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Users.ToListAsync());
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDto request)
         {
-            if (user.Username != request.Username)
+            var user = await _context.Users.FindAsync(request.Username);
+            if (user == null)
             {
                 return BadRequest("User not found");
             }
