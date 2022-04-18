@@ -29,31 +29,5 @@ namespace WatercoolerApi.Controllers
             return Ok(user);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<List<User>>> UpdateHero(User request)
-        {
-            var dbUser = await _context.Users.FindAsync(request.Id);
-            if (dbUser == null)
-                return BadRequest("User not found.");
-
-            dbUser.FirstName = request.FirstName;
-            dbUser.LastName = request.LastName;
-            dbUser.UserActivity = request.UserActivity;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(await _context.Users.ToListAsync());
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<User>>> Delete(int id)
-        {
-            var dbUser = await _context.Users.FindAsync(id);
-            if (dbUser == null)
-                return BadRequest("User not found.");
-
-            _context.Users.Remove(dbUser);
-            return Ok(await _context.Users.ToListAsync());
-        }
     }
 }
