@@ -29,5 +29,17 @@ namespace WatercoolerApi.Controllers
             return Ok(user);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<User>> Delete(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+                return BadRequest("User not found.");
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return Ok(_context.Users);
+        }
+
     }
 }
