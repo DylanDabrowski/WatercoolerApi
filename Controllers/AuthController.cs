@@ -44,7 +44,7 @@ namespace WatercoolerApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDto request)
         {
-            var user = await _context.Users.FindAsync(request.Username);
+            var user = _context.Users.Where(u => u.Username == request.Username).FirstOrDefault();
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -54,8 +54,8 @@ namespace WatercoolerApi.Controllers
                 return BadRequest("Wrong password");
             }
 
-            string token = CreateToken(user);
-            return Ok(token);
+            // string token = CreateToken(user);
+            return Ok(user);
         }
 
         private string CreateToken(User user)

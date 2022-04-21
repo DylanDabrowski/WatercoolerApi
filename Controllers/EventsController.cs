@@ -30,7 +30,7 @@ namespace WatercoolerApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Event>>> AddHero(Event ev)
+        public async Task<ActionResult<List<Event>>> AddEvent(Event ev)
         {
             _context.Events.Add(ev);
             await _context.SaveChangesAsync();
@@ -38,8 +38,17 @@ namespace WatercoolerApi.Controllers
             return Ok(await _context.Events.ToListAsync());
         }
 
+        // [HttpPost]
+        // public async Task<ActionResult<List<Event>>> AddEvents(Event[] events)
+        // {
+        //     _context.Events.AddRange(events);
+        //     await _context.SaveChangesAsync();
+
+        //     return Ok(await _context.Events.ToListAsync());
+        // }
+
         [HttpPut]
-        public async Task<ActionResult<List<Event>>> UpdateHero(Event request)
+        public async Task<ActionResult<List<Event>>> UpdateEvent(Event request)
         {
             var dbEvent = await _context.Events.FindAsync(request.Id);
             if (dbEvent == null)
