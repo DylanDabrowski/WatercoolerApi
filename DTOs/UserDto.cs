@@ -8,5 +8,7 @@ namespace WatercoolerApi.DTOs
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public ActivityStatus UserActivity { get; set; }
+        public string ProfilePictureUri { get; set; } = string.Empty;
+        public int PermissionLevel { get; set; }
     }
 }

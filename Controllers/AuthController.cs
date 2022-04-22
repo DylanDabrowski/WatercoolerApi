@@ -34,6 +34,8 @@ namespace WatercoolerApi.Controllers
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.UserActivity = request.UserActivity;
+            user.ProfilePictureUri = request.ProfilePictureUri;
+            user.PermissionLevel = request.PermissionLevel;
 
             _context.Add(user);
             await _context.SaveChangesAsync();
@@ -55,6 +57,31 @@ namespace WatercoolerApi.Controllers
             }
 
             // string token = CreateToken(user);
+            return Ok(user);
+        }
+
+        [HttpPut("update")]
+        public async Task<ActionResult<string>> Update(UserDto request)
+        {
+            var user = _context.Users.Where(u => u.Username == request.Username).FirstOrDefault();
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                return BadRequest("Wrong password");
+            }
+
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.UserActivity = request.UserActivity;
+            user.ProfilePictureUri = request.ProfilePictureUri;
+
+            await _context.SaveChangesAsync();
+
             return Ok(user);
         }
 

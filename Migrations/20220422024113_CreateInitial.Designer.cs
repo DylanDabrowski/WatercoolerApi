@@ -12,7 +12,7 @@ using WatercoolerApi.Data;
 namespace WatercoolerApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220420062629_CreateInitial")]
+    [Migration("20220422024113_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,6 +84,13 @@ namespace WatercoolerApi.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("PermissionLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProfilePictureUri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserActivity")
                         .HasColumnType("int");

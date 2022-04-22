@@ -64,13 +64,14 @@ namespace WatercoolerApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Event>>> Delete(int id)
+        public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FindAsync(id);
             if (dbEvent == null)
                 return BadRequest("Event not found.");
 
             _context.Events.Remove(dbEvent);
+            await _context.SaveChangesAsync();
             return Ok(await _context.Events.ToListAsync());
         }
 

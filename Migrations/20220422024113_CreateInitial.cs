@@ -38,7 +38,9 @@ namespace WatercoolerApi.Migrations
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserActivity = table.Column<int>(type: "int", nullable: false)
+                    UserActivity = table.Column<int>(type: "int", nullable: false),
+                    ProfilePictureUri = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PermissionLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

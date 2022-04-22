@@ -83,6 +83,13 @@ namespace WatercoolerApi.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int>("PermissionLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProfilePictureUri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserActivity")
                         .HasColumnType("int");
 
